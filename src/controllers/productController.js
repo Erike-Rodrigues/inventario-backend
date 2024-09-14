@@ -59,12 +59,17 @@ const deleteProduct = async (req, res) => {
 
 const getProductsByCategory = async (req, res) => {
   try {
-    const products = await productModel.getProductsByCategory(req.query.categoria);
+    const { categoria } = req.query;
+    if (!categoria) {
+      return res.status(400).json({ error: 'Categoria é um parâmetro obrigatório' });
+    }
+    const products = await productModel.getProductsByCategory(categoria);
     res.json(products);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
+
 
 module.exports = {
   getAllProducts,

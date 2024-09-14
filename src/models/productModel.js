@@ -51,9 +51,13 @@ const deleteProduct = async (id) => {
 };
 
 const getProductsByCategory = async (categoria) => {
+  if (!categoria) {
+    throw new Error('Categoria não pode ser nula');
+  }
   const result = await pool.query('SELECT * FROM produtos WHERE categoria = $1', [categoria]);
   return result.rows;
 };
+
 
 module.exports = {
   getAllProducts,
